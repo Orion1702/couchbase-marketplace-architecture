@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  couchbase:
+    image: couchbase:community
+    container_name: cb_marketplace
+    ports:
+      - "8091-8096:8091-8096"   # Web Console та API
+      - "11210-11211:11210-11211" # Внутрішній зв'язок
+    volumes:
+      - ./cb_data:/opt/couchbase/var
+    environment:
+      - COUCHBASE_ADMINISTRATOR_USERNAME=admin
+      - COUCHBASE_ADMINISTRATOR_PASSWORD=password
