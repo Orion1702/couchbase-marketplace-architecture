@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "role_name": "admin",
+    "permissions": [
+      "user.manage",
+      "product.manage",
+      "order.manage",
+      "category.manage",
+      "reports.view",
+      "system.settings"
+    ]
+  },
+  {
+    "id": 2,
+    "role_name": "seller",
+    "permissions": [
+      "product.create",
+      "product.edit",
+      "product.delete_own",
+      "order.view_own",
+      "inventory.update",
+      "reviews.reply"
+    ]
+  },
+  {
+    "id": 3,
+    "role_name": "buyer",
+    "permissions": [
+      "product.view",
+      "order.create",
+      "order.view_personal",
+      "cart.manage",
+      "reviews.create",
+      "profile.edit"
+    ]
+  }
+]

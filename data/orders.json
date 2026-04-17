@@ -1,0 +1,30 @@
+[
+	{
+		"id": 2324,
+		"user_id": 82,
+		"status": {
+			"status_id": 2,
+			"name": "Shipped",
+			"description": "Відправлено клієнту"
+		},
+		"total_price": 15.30,
+		"delivery_address": "м. Бровари, вул. Незалежності, 10",
+		"order_items": [
+			{
+				"id": 1,
+				"product_name": "product 1",
+				"product_id": 352,
+				"quantity": 1,
+				"price_at_purchase": 15.00
+			},
+			{
+				"id": 2,
+				"product_name": "product 2",
+				"product_id": 245,
+				"quantity": 3,
+				"price_at_purchase": 0.10
+			}
+		],
+		"created_at": 1775737480
+	}
+]

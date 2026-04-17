@@ -1,0 +1,24 @@
+[
+	{
+		"id": 123,
+		"username": "Андрій",
+		"email": "andrey214@gmail.com",
+		"password_hash": "046f5e86a0fcdc51ea222037b268de6b6aee46c3a9637f9422e9736f37917f34",
+		"first_name": "A",
+		"last_name": "B",
+		"phone": "380967374830",
+		"roles": [
+			"buyer",
+			"seller"
+		],
+		"cart": [
+			{
+				"product_id": 123,
+				"quantity": 1,
+				"added_at": 1775736533
+			}
+		],
+		"created_at": 1748274727,
+		"updated_at": 1775736533
+	}
+]
