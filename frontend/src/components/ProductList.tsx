@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import ProductCard from './ProductCard';
+import CategoryList from './CategoryList';
 
 type Product = {
 	id?: string;
@@ -58,6 +59,8 @@ export default function ProductList({ roleName }: ProductListProps) {
 					Ви увійшли як <span className="font-bold text-blue-600 capitalize">{roleName}</span>
 				</p>
 			</div>
+
+			<CategoryList />
 
 			{isLoading ? (
 				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

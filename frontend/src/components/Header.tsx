@@ -48,8 +48,8 @@ export default function Header() {
 						<XMarkIcon aria-hidden="true" className="hidden size-6 group-data-[open]:block" />
 					</DisclosureButton>
 				</div>
-				<div className="pointer-events-none inset-y-0 left-1/2 flex -translate-x-1/2 items-center sm:pointer-events-auto sm:static sm:translate-x-0">
-					<span className="text-sm font-semibold text-white">Лого</span>
+				<div className="pointer-events-none inset-y-0 left-1/2 flex items-center sm:pointer-events-auto sm:static sm:translate-x-0">
+					<span className="text-sm font-semibold text-white">Marketplace</span>
 				</div>
 				<div className="flex flex-1 items-center justify-center gap-4 sm:ml-6 sm:items-stretch sm:justify-start sm:gap-6">
 					<div className="hidden sm:block">

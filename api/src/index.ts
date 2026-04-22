@@ -1,6 +1,9 @@
 import express from 'express';
 import cors from 'cors';
-import { connectToDatabase, getCluster } from './db';
+import { connectToDatabase } from './db';
+import productRoutes from './routes/productRoutes';
+import categoryRoutes from './routes/categoryRoutes';
+import userRoutes from './routes/userRoutes';
 
 const app = express();
 const PORT = Number(process.env.PORT) || 3000;
@@ -11,19 +14,9 @@ app.use(
 	})
 );
 app.use(express.json());
-
-app.get('/api/products', async (_req, res) => {
-	try {
-		const cluster = getCluster();
-		const query = 'SELECT META(p).id AS id, p.* FROM `marketplace`.`store`.`products` AS p';
-		const result = await cluster.query(query);
-
-		res.json(result.rows);
-	} catch (error) {
-		console.error('Failed to fetch products:', error);
-		res.status(500).json({ message: 'Failed to fetch products' });
-	}
-});
+app.use('/api/products', productRoutes);
+app.use('/api/categories', categoryRoutes);
+app.use('/api/users', userRoutes);
 
 async function main() {
 	await connectToDatabase();
