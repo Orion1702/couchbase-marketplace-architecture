@@ -1,125 +1,146 @@
-import { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { useAuthStore, roles } from '../store/useAuthStore';
-import { ShoppingBag, Bell, Menu, X, ChevronDown } from 'lucide-react';
+import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Link, useLocation } from 'react-router-dom'
+import { useAuthStore, roles } from '../store/useAuthStore'
+import { ShoppingBagIcon } from '@heroicons/react/20/solid'
 
-export const Header = () => {
-  const { currentRole, setRole } = useAuthStore();
-  const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const location = useLocation();
+function classNames(...classes: string[]) {
+  return classes.filter(Boolean).join(' ')
+}
 
-  const navigation = [
-    { name: 'Dashboard', href: '/', show: true },
-    { name: 'Користувачі', href: '/admin/users', show: currentRole.permissions.includes('user.manage') },
-    { name: 'Категорії', href: '/admin/category', show: currentRole.permissions.includes('category.manage') || currentRole.role_name === 'admin' },
-    { name: 'Товари', href: '/admin/product', show: currentRole.permissions.includes('product.manage') || currentRole.role_name === 'seller' },
-  ];
+export default function Header() {
+	const { currentRole, setRole } = useAuthStore()
+	const location = useLocation()
 
-  return (
-    <nav className="bg-gray-800 shadow-md">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="relative flex h-16 items-center">
-          
-          {/* 1. Ліва частина: Мобільна кнопка та Десктопне меню */}
-          <div className="flex items-center sm:hidden">
-            <button 
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 text-gray-400 hover:bg-gray-700 hover:text-white rounded-md"
-            >
-              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          </div>
+	// Динамічна навігація на основі дозволів
+	const navigation = [
+		{ name: 'Dashboard', href: '/', show: true },
+		{ 
+			name: 'Користувачі', 
+			href: '/admin/users', 
+			show: currentRole.permissions.includes('user.manage') 
+		},
+		{ 
+			name: 'Категорії', 
+			href: '/admin/category', 
+			show: currentRole.permissions.includes('category.manage') || currentRole.role_name === 'admin' 
+		},
+		{ 
+		name: 'Товари', 
+		href: '/admin/product', 
+		show: currentRole.permissions.includes('product.manage') || currentRole.role_name === 'seller' 
+		},
+	]
 
-          <div className="flex flex-1 items-center justify-start">
-            {/* Лого */}
-            <div className="flex shrink-0 items-center gap-2 mr-8">
-              <ShoppingBag className="h-8 w-auto text-indigo-500" />
-              <span className="text-white font-bold hidden md:block">LeaderBoard</span>
-            </div>
-            
-            {/* Навігація (Desktop) */}
-            <div className="hidden sm:block">
-              <div className="flex space-x-4">
-                {navigation.map((item) => item.show && (
-                  <Link
-                    key={item.name}
-                    to={item.href}
-                    className={`rounded-md px-3 py-2 text-sm font-medium transition-colors ${
-                      location.pathname === item.href 
-                        ? 'bg-gray-900 text-white' 
-                        : 'text-gray-300 hover:bg-gray-700 hover:text-white'
-                    }`}
-                  >
-                    {item.name}
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </div>
+	return (
+		<Disclosure
+			as="nav"
+			className="relative bg-gray-800 shadow-xl after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-white/10"
+		>
+		<div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+			<div className="relative flex h-16 items-center justify-between gap-4">
+			{/* Mobile menu button*/}
+				<div className=" inset-y-0 left-0 flex items-center sm:!hidden">
+					<DisclosureButton className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white sm:!hidden">
+						<span className="absolute -inset-0.5" />
+						<span className="sr-only">Open main menu</span>
+						<Bars3Icon aria-hidden="true" className="block size-6 group-data-[open]:hidden" />
+						<XMarkIcon aria-hidden="true" className="hidden size-6 group-data-[open]:block" />
+					</DisclosureButton>
+				</div>
+				<div className="pointer-events-none inset-y-0 left-1/2 flex -translate-x-1/2 items-center sm:pointer-events-auto sm:static sm:translate-x-0">
+					<span className="text-sm font-semibold text-white">Лого</span>
+				</div>
+				<div className="flex flex-1 items-center justify-center gap-4 sm:ml-6 sm:items-stretch sm:justify-start sm:gap-6">
+					<div className="hidden sm:block">
+					<div className="flex space-x-4">
+						{navigation.map((item) => item.show && (
+						<Link
+							key={item.name}
+							to={item.href}
+							className={classNames(
+							location.pathname === item.href 
+								? 'bg-gray-900 text-white' 
+								: 'text-gray-300 hover:bg-white/5 hover:text-white',
+							'rounded-md px-3 py-2 text-sm font-medium transition-colors',
+							)}
+						>
+							{item.name}
+						</Link>
+						))}
+					</div>
+					</div>
+				</div>
 
-          {/* 2. Права частина: Дзвоник та Перемикач */}
-          <div className="flex items-center gap-4">
-            <button className="text-gray-400 hover:text-white p-1">
-              <Bell size={24} />
-            </button>
+				<div className="flex items-center gap-3 pr-2 sm:ml-6 sm:pr-0">
+					<button
+					type="button"
+					className="relative rounded-full p-1 text-gray-400 hover:text-white focus:outline-none"
+					>
+				<ShoppingBagIcon aria-hidden="true" className="size-6" />
+					</button>
 
-            <div className="relative">
-              <button 
-                onClick={() => setIsProfileOpen(!isProfileOpen)}
-                className="flex items-center gap-2 rounded-full bg-gray-800 text-sm focus:ring-2 focus:ring-white p-1 pr-3 border border-gray-700"
-              >
-                <img 
-                  className="size-8 rounded-full border border-indigo-500" 
-                  src={`https://ui-avatars.com/api/?name=${currentRole.role_name}&background=6366f1&color=fff`} 
-                  alt="" 
-                />
-                <span className="text-gray-200 font-medium capitalize hidden sm:block">{currentRole.role_name}</span>
-                <ChevronDown size={16} className="text-gray-400" />
-              </button>
+					{/* Випадаюче меню профілю / ролей */}
+					<Menu as="div" className="relative ml-3">
+					<div>
+						<MenuButton className="relative flex items-center gap-2 rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 border border-white/10 p-0.5 pr-2">
+						<img
+							alt="Role avatar"
+							src={`https://ui-avatars.com/api/?name=${currentRole.role_name}&background=6366f1&color=fff`}
+							className="size-8 rounded-full"
+						/>
+						<span className="text-gray-300 capitalize text-xs font-semibold hidden md:block">
+							{currentRole.role_name}
+						</span>
+						</MenuButton>
+					</div>
 
-              {isProfileOpen && (
-                <div 
-                  className="absolute right-0 z-50 mt-2 w-48 rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5"
-                  onMouseLeave={() => setIsProfileOpen(false)}
-                >
-                  <div className="px-4 py-2 text-xs text-gray-500 border-b">Змінити роль</div>
-                  {roles.map((role) => (
-                    <button
-                      key={role.id}
-                      onClick={() => {
-                        setRole(role.role_name);
-                        setIsProfileOpen(false);
-                      }}
-                      className={`block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ${
-                        currentRole.role_name === role.role_name ? 'bg-indigo-50 font-bold text-indigo-600' : ''
-                      }`}
-                    >
-                      {role.role_name}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
+					<MenuItems
+						transition
+						className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-gray-800 py-1 shadow-2xl ring-1 ring-white/10 transition focus:outline-none data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+					>
+						<div className="px-4 py-2 text-[10px] font-bold text-gray-500 uppercase tracking-widest border-b border-white/5">
+						Змінити роль
+						</div>
+						{roles.map((role) => (
+						<MenuItem key={role.id}>
+							<button
+							onClick={() => setRole(role.role_name)}
+							className={classNames(
+								currentRole.role_name === role.role_name 
+								? 'bg-white/10 text-white font-bold' 
+								: 'text-gray-300 hover:bg-white/5',
+								'block w-full text-left px-4 py-2 text-sm transition-colors'
+							)}
+							>
+							Як {role.role_name}
+							</button>
+						</MenuItem>
+						))}
+					</MenuItems>
+					</Menu>
+				</div>
+			</div>
+		</div>
 
-      {/* Мобільне меню */}
-      {isMobileMenuOpen && (
-        <div className="sm:hidden bg-gray-800 border-t border-gray-700 px-2 pt-2 pb-3 space-y-1">
-          {navigation.map((item) => item.show && (
-            <Link
-              key={item.name}
-              to={item.href}
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-            >
-              {item.name}
-            </Link>
-          ))}
-        </div>
-      )}
-    </nav>
-  );
-};
+		{/* Мобільна панель */}
+			<DisclosurePanel className="sm:hidden">
+				<div className="space-y-1 px-2 pt-2 pb-3 bg-gray-800">
+					{navigation.map((item) => item.show && (
+						<DisclosureButton
+							key={item.name}
+							as={Link}
+							to={item.href}
+							className={classNames(
+								location.pathname === item.href ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+								'block rounded-md px-3 py-2 text-base font-medium'
+							)}
+						>
+							{item.name}
+						</DisclosureButton>
+					))}
+				</div>
+			</DisclosurePanel>
+		</Disclosure>
+	)
+}

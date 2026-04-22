@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Допомагає Headless UI працювати з Tailwind CDN */
+[data-open] .group-data-open\:hidden { display: none !important; }
+[data-open] .group-data-open\:block { display: block !important; }
