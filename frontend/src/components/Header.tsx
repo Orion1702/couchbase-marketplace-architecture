@@ -9,7 +9,8 @@ function classNames(...classes: string[]) {
 }
 
 export default function Header() {
-	const { currentRole, setRole } = useAuthStore()
+	const currentRole = useAuthStore((state) => state.currentRole)
+	const setRole = useAuthStore((state) => state.setRole)
 	const location = useLocation()
 
 	// Динамічна навігація на основі дозволів

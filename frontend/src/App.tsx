@@ -5,7 +5,7 @@ import Header from './components/Header';
 import ProductList from './components/ProductList';
 
 function App() {
-    const { currentRole } = useAuthStore();
+    const currentRole = useAuthStore((state) => state.currentRole);
 
     // Перевіряємо, чи є користувач адміном або продавцем
     const isStaff = currentRole.role_name === 'admin' || currentRole.role_name === 'seller';
